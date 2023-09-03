@@ -2,7 +2,7 @@ resource "aws_elasticache_replication_group" "this" {
   replication_group_id       = var.name
   description                = "elasticache rep group"
   node_type                  = "cache.t2.medium"
-  port                       = 6379
+  port                       = var.cache_port
   parameter_group_name       = "default.redis7.cluster.on"
   engine_version             = "7.0"
   automatic_failover_enabled = true // enabling this is required for cluster mode
@@ -14,6 +14,7 @@ resource "aws_elasticache_replication_group" "this" {
 
   at_rest_encryption_enabled = var.at_rest_encryption_enabled
   transit_encryption_enabled = var.transit_encryption_enabled
+  user_group_ids             = [aws_elasticache_user_group.this.id]
 }
 
 resource "aws_elasticache_subnet_group" "this" {

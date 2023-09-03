@@ -36,3 +36,11 @@ variable "vpc_id" {
   type = string
 }
 
+variable "main_runner" {
+  type        = string
+  description = "The default identity used in client server. This is used to mimic a situation where, this main_runner would assume a role which have a very least privilege. In this case, it can only connect to the Elasticache."
+}
+
+variable "demo_user_password" {
+  type = string
+}

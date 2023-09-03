@@ -18,3 +18,12 @@ variable "private_subnets_cidr" {
 variable "availability_zones" {
   type = list(string)
 }
+
+variable "enable_elasticache" {
+  type = bool
+}
+
+variable "demo_user_password" {
+  type = string
+}
+/* VPN */
