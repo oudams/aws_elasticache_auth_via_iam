@@ -8,6 +8,7 @@ resource "aws_vpc" "vpc" {
     Name = "${var.name}-vpc"
   }
 }
+
 /****= Subnets *******/
 /* Internet gateway used by a public subnet */
 resource "aws_internet_gateway" "ig" {
@@ -21,10 +22,17 @@ resource "aws_internet_gateway" "ig" {
 /* NAT */
 # Use a public NAT gateway to enable instances in a private subnet to send outbound traffic to the internet, while preventing the internet from establishing connections to the instances.
 resource "aws_nat_gateway" "nat" {
-  subnet_id = element(aws_subnet.public_subnet.*.id, 0)
+  count         = var.enable_nat_gw ? 1 : 0
+  subnet_id     = element(aws_subnet.public_subnet.*.id, 0)
+  allocation_id = aws_eip.nat_eip[0].id
   tags = {
     Name = "${var.name}-nat-gateway"
   }
+}
+
+resource "aws_eip" "nat_eip" {
+  count  = var.enable_nat_gw ? 1 : 0
+  domain = "vpc"
 }
 
 /* Public subnet */
@@ -76,9 +84,10 @@ resource "aws_route" "public_internet_gateway" {
 }
 
 resource "aws_route" "private_nat_gateway" {
+  count                  = var.enable_nat_gw ? 1 : 0
   route_table_id         = aws_route_table.private.id
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = aws_nat_gateway.nat.id
+  nat_gateway_id         = aws_nat_gateway.nat[0].id
 }
 
 /* Route table associations */

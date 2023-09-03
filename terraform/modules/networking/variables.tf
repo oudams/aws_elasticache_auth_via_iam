@@ -17,3 +17,7 @@ variable "availability_zones" {
 variable "private_subnets_cidr" {
   type = list(string)
 }
+
+variable "enable_nat_gw" {
+  default = false
+}
