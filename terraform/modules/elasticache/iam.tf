@@ -70,10 +70,18 @@ resource "aws_elasticache_user" "user" {
   }
 }
 
+resource "aws_elasticache_user" "default" {
+  access_string        = "on ~* +@all"
+  engine               = "REDIS"
+  user_id              = "defaultRestricted"
+  user_name            = "default"
+  no_password_required = true
+}
+
 resource "aws_elasticache_user_group" "this" {
   engine        = "REDIS"
   user_group_id = "user-group-alpha"
-  user_ids      = [aws_elasticache_user.user.id, aws_elasticache_user.basic_user.id, "default"]
+  user_ids      = [aws_elasticache_user.user.id, aws_elasticache_user.basic_user.id, aws_elasticache_user.default.id]
 }
 
 resource "aws_elasticache_user" "basic_user" {
