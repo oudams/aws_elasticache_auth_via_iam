@@ -26,4 +26,8 @@ variable "enable_elasticache" {
 variable "demo_user_password" {
   type = string
 }
+
+variable "main_runner" {
+  type = string
+}
 /* VPN */

@@ -7,6 +7,6 @@ module "elaticache-iam-auth" {
   sg_ingress_rule_source_security_group_ids = [module.networking.vpc_default_security_group_id]
   subnet_ids                                = module.networking.private_subnet_ids
   vpc_id                                    = module.networking.vpc_id
-  main_runner                               = "local-dev"
+  main_runner                               = var.main_runner
   demo_user_password                        = var.demo_user_password
 }

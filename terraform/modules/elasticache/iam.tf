@@ -73,7 +73,7 @@ resource "aws_elasticache_user" "user" {
 resource "aws_elasticache_user" "default" {
   access_string        = "on ~* +@all"
   engine               = "REDIS"
-  user_id              = "defaultRestricted"
+  user_id              = "defaultrestricted"
   user_name            = "default"
   no_password_required = true
 }
